@@ -1,0 +1,20 @@
+#!/bin/bash
+
+CPUARCH="###CPUARCH###"
+SASSVERSION="###SASSVERSION###"
+DARTSDKVERSION="###DARTSDKVERSION###"
+
+LVAR_DARTSDK_PATH="/opt/dartsdk-linux-${CPUARCH}-${DARTSDKVERSION}"
+LVAR_SASS_PATH="/opt/sass.dart-linux-${CPUARCH}-${SASSVERSION}-snapshot"
+
+#if [ ! -d "$LVAR_DARTSDK_PATH" ]; then
+#	echo "Could not find '$LVAR_DARTSDK_PATH/'. Aborting." >/dev/stderr
+#	exit 1
+#fi
+if [ ! -d "$LVAR_SASS_PATH" ]; then
+	echo "Could not find '$LVAR_SASS_PATH/'. Aborting." >/dev/stderr
+	exit 1
+fi
+
+#"${LVAR_DARTSDK_PATH}"/bin/dart "${LVAR_SASS_PATH}/sass.dart-snapshot" $@
+"${LVAR_SASS_PATH}"/dart "-Dversion=SASS_VERSION" "${LVAR_SASS_PATH}/sass.dart-snapshot" $@
