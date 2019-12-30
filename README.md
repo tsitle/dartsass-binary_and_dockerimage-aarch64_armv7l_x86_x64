@@ -33,6 +33,8 @@ $ sudo ln -s /opt/sass.dart-linux-i386-<SASS_VERSION>-snapshot/sass /usr/local/b
 $ sass
 ```
 
+Note: due to reasons unknown the command `$ sass --version` will issue an error.
+
 ## Building the binary
 ### Cross-compiling on a X64/AMD64 host
 On the X64/AMD64 host, run:
