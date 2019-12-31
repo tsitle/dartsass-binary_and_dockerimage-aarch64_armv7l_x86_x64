@@ -11,7 +11,7 @@ as well as the Docker Image used for building the binary packages.
 
 ## Using the pre-built binary
 ### AARCH64 or ARMv7l or X64
-Extract the binary package from ``./binary/sass.dart-linux-<ARCH>-<VERSION>.tgz`` to ``/usr/local/bin/`` on the **AARCH64 or ARMv7l or X64** machine:
+Extract the binary package on the target host:
 
 ```
 $ sudo tar xf binary/sass.dart-linux-<ARCH>-<VERSION>.tgz -C /usr/local/bin/
@@ -69,5 +69,5 @@ You'll just need to replace the path `binary/` with `dist/`.
 
 The Docker Image is based on:
 
-- [https://github.com/tsitle/dockercompose-binary\_and\_dockerimage-aarch64](https://github.com/tsitle/dockercompose-binary_and_dockerimage-aarch64)
+- [https://github.com/tsitle/dockercompose-binary\_and\_dockerimage-aarch64\_armv7l\_x86\_x64](https://github.com/tsitle/dockercompose-binary_and_dockerimage-aarch64_armv7l_x86_x64)
 - [https://github.com/tsitle/go-binary\_and\_dockerimage-aarch64\_armv7l\_x86](https://github.com/tsitle/go-binary_and_dockerimage-aarch64_armv7l_x86)
