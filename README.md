@@ -1,6 +1,6 @@
-# Dart Sass binary packages for AARCH64, ARMv7l, X86 and X64 and Docker Image for creating the packages
+# Dart-Sass binary packages for AARCH64, ARMv7l, X86 and X64 and Docker Image for creating the packages
 
-This repository provides [Dart Sass](https://sass-lang.com/dart-sass) binary packages for
+This repository provides [Dart-Sass](https://sass-lang.com/dart-sass) binary packages for
 
 - AARCH64 (aarch64/arm64v8/arm64)
 - ARMv7l (armv7l/arm32v7/armhf)
@@ -19,7 +19,7 @@ $ sudo ln -s /usr/local/bin/sass.dart-linux-<ARCH>-<VERSION> /usr/local/bin/sass
 ```
 
 ### X86
-On X86 Dart Sass cannot be compiled into a binary.  
+On X86 Dart-Sass cannot be compiled into a binary.  
 Instead the runtime interpreter needs to be used.
 
 ```
