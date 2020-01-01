@@ -162,7 +162,7 @@ RUN \
 			/var/lib/apt/lists*
 
 #
-ENV DEBIAN_FRONTEND=newt
+ENV DEBIAN_FRONTEND=dialog
 
 # Copy out the generated binary
 VOLUME /dist

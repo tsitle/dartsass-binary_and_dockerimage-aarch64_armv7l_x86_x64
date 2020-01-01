@@ -109,7 +109,7 @@ RUN \
 			/var/lib/apt/lists*
 
 #
-ENV DEBIAN_FRONTEND=newt
+ENV DEBIAN_FRONTEND=dialog
 
 # Disable cross-build
 # Note: don't disable this, since we want to run this container on x86_64, not the target host
