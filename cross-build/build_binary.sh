@@ -164,7 +164,7 @@ function _getCommonFile() {
 LVAR_GITHUB_BASE="https://raw.githubusercontent.com/tsitle/docker_images_common_files/master"
 
 LVAR_DEBIAN_DIST="$(_getCpuArch debian_dist)"
-LVAR_DEBIAN_RFS="$(_getCpuArch debian_rootfs)"
+LVAR_DEBIAN_RELEASE="stretch"
 LVAR_DEBIAN_VERSION="9.11"
 
 # ----------------------------------------------------------
@@ -181,17 +181,16 @@ cd build-ctx || exit 1
 	mkdir cache || exit 1
 }
 
-_getCommonFile "debian_stretch/rootfs-debian_stretch_${LVAR_DEBIAN_VERSION}-${LVAR_DEB_TRG_RFS}.tar.xz" || exit 1
 _getCommonFile "qemu_binary_static/qemu-${LVAR_QEMU_TRG_ARCH}-static.tgz" || exit 1
 
 echo -e "\n$VAR_MYNAME: Building Docker Image '${LVAR_IMAGE_NAME}:${LVAR_IMAGE_VER}'...\n"
 docker build \
-		--build-arg CF_CPUARCH_DEB_TRG_ROOTFS="$LVAR_DEB_TRG_RFS" \
+		--build-arg CF_CPUARCH_DEB_TRG_DIST="$OPT_DEBIAN_TRG_DIST" \
+		--build-arg CF_DEBIAN_RELEASE="$LVAR_DEBIAN_RELEASE" \
 		--build-arg CF_DEBIAN_VERSION="$LVAR_DEBIAN_VERSION" \
 		--build-arg CF_QEMU_TRG_ARCH="$LVAR_QEMU_TRG_ARCH" \
 		--build-arg CF_DARTSDK_VERSION="$LVAR_DARTSDK_VERSION" \
 		--build-arg CF_CPUARCH_DARTSDK_TRG="$LVAR_CPUARCH_DARTSDK_TRG" \
-		--build-arg CF_CPUARCH_DEB_TRG_DIST="$OPT_DEBIAN_TRG_DIST" \
 		--build-arg CF_DARTSASS_VERSION="$LVAR_DARTSASS_VERSION" \
 		-t "${LVAR_IMAGE_NAME}":"$LVAR_IMAGE_VER" \
 		. || exit 1
