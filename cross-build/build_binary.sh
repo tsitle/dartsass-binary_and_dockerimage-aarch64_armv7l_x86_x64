@@ -117,6 +117,23 @@ function md5sum_poly() {
 function _getCommonFile() {
 	[ -z "$LVAR_GITHUB_BASE" ] && return 1
 	[ -z "$1" ] && return 1
+	echo -e "\n"
+	if [ -f "cache/$1.md5" ]; then
+		mv "cache/$1.md5" "cache/$1-last.md5"
+		echo -e "\nDownloading file '$1.md5'...\n"
+		curl -L \
+				-o cache/$1.md5 \
+				${LVAR_GITHUB_BASE}/$1.md5 || return 1
+		local TMP_CMP_A="$(cat "cache/$1-last.md5" | cut -f1 -d\ )"
+		local TMP_CMP_B="$(cat "cache/$1.md5" | cut -f1 -d\ )"
+		if [ "$TMP_CMP_A" != "$TMP_CMP_B" ]; then
+			echo "MD5s have changed:"
+			echo "  '$TMP_CMP_A' != '$TMP_CMP_B'"
+			echo "Deleting old file '${1}'"
+			rm "cache/$1"
+		fi
+		rm "cache/$1-last.md5"
+	fi
 	if [ ! -f "cache/$1" -o ! -f "cache/$1.md5" ]; then
 		local TMP_DN="$(dirname "$1")"
 		if [ "$TMP_DN" != "." -a "$TMP_DN" != "./" -a "$TMP_DN" != "/" ]; then
@@ -156,6 +173,7 @@ function _getCommonFile() {
 			return 1
 		fi
 	fi
+	echo -e "\n"
 	return 0
 }
 
@@ -183,11 +201,14 @@ cd build-ctx || exit 1
 
 _getCommonFile "qemu_binary_static/qemu-${LVAR_QEMU_TRG_ARCH}-static.tgz" || exit 1
 
+LVAR_SRC_OS_IMAGE="tsle/os-debian-${LVAR_DEBIAN_RELEASE}-${OPT_DEBIAN_TRG_DIST}:${LVAR_DEBIAN_VERSION}"
+docker pull $LVAR_SRC_OS_IMAGE || exit 1
+echo
+
 echo -e "\n$VAR_MYNAME: Building Docker Image '${LVAR_IMAGE_NAME}:${LVAR_IMAGE_VER}'...\n"
 docker build \
+		--build-arg CF_SRC_OS_IMAGE="$LVAR_SRC_OS_IMAGE" \
 		--build-arg CF_CPUARCH_DEB_TRG_DIST="$OPT_DEBIAN_TRG_DIST" \
-		--build-arg CF_DEBIAN_RELEASE="$LVAR_DEBIAN_RELEASE" \
-		--build-arg CF_DEBIAN_VERSION="$LVAR_DEBIAN_VERSION" \
 		--build-arg CF_QEMU_TRG_ARCH="$LVAR_QEMU_TRG_ARCH" \
 		--build-arg CF_DARTSDK_VERSION="$LVAR_DARTSDK_VERSION" \
 		--build-arg CF_CPUARCH_DARTSDK_TRG="$LVAR_CPUARCH_DARTSDK_TRG" \

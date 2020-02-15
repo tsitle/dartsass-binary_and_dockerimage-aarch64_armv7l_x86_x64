@@ -99,14 +99,16 @@ LVAR_IMAGE_VER="$LVAR_DARTSASS_VERSION"
 
 cd build-ctx || exit 1
 
+LVAR_SRC_OS_IMAGE="tsle/os-debian-${LVAR_DEBIAN_RELEASE}-${LVAR_DEBIAN_DIST}:${LVAR_DEBIAN_VERSION}"
+docker pull $LVAR_SRC_OS_IMAGE || exit 1
+echo
+
 echo -e "\n$VAR_MYNAME: Building Docker Image '${LVAR_IMAGE_NAME}:${LVAR_IMAGE_VER}'...\n"
 docker build \
+		--build-arg CF_SRC_OS_IMAGE="$LVAR_SRC_OS_IMAGE" \
 		--build-arg CF_CPUARCH_DEB_DIST="$LVAR_DEBIAN_DIST" \
-		--build-arg CF_DEBIAN_RELEASE="$LVAR_DEBIAN_RELEASE" \
-		--build-arg CF_DEBIAN_VERSION="$LVAR_DEBIAN_VERSION" \
 		--build-arg CF_DARTSDK_VERSION="$LVAR_DARTSDK_VERSION" \
 		--build-arg CF_CPUARCH_DARTSDK="$LVAR_CPUARCH_DARTSDK" \
-		--build-arg CF_CPUARCH_DEB_DIST="$LVAR_DEBIAN_DIST" \
 		--build-arg CF_DARTSASS_VERSION="$LVAR_DARTSASS_VERSION" \
 		-t "${LVAR_IMAGE_NAME}":"$LVAR_IMAGE_VER" \
 		. || exit 1
